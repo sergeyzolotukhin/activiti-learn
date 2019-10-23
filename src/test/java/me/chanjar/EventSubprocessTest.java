@@ -40,24 +40,18 @@ public class EventSubprocessTest {
     public void messageStartEvent() {
       String processDefinitionKey = "event-subprocess";
       runtimeService.startProcessInstanceByKey(processDefinitionKey);
-      
-      // usertask1 is not null
+
       Task task1 = taskService.createTaskQuery().processDefinitionKey(processDefinitionKey).taskDefinitionKey("usertask1").singleResult();
       assertNotNull(task1);
-      
-      // send a message and trigger event sub-process
+
       sendMessage(processDefinitionKey);
-      
-      // complete usertask3 in event sub-process
+
       Task task3 = taskService.createTaskQuery().processDefinitionKey(processDefinitionKey).taskDefinitionKey("usertask3").singleResult();
       taskService.complete(task3.getId());
 
-      // trying to get usertask1 again
       task1 = taskService.createTaskQuery().processDefinitionKey(processDefinitionKey).taskDefinitionKey("usertask1").singleResult();
-      // but usertask1 disappeared
       taskService.complete(task1.getId());
-      
-      // 判断process instance已经结束
+
       assertEquals(0, runtimeService.createProcessInstanceQuery().processDefinitionKey(processDefinitionKey).count());
     }
     
