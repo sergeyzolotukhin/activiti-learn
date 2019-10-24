@@ -1,24 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.chanjar.me" id="adhoc-definitions">
-  <signal id="def" name="def"></signal>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns:activiti="http://activiti.org/bpmn"
+             typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath"
+             targetNamespace="http://www.chanjar.me" id="adhoc-definitions">
+    <signal id="def" name="def"/>
 
-  <process id="signal-intermediate-catch" name="signal-intermediate-catch" isExecutable="true">
-    <startEvent id="startevent1" name="Start"></startEvent>
-    <userTask id="usertask1" name="usertask1"></userTask>
-    <sequenceFlow id="flow1" sourceRef="startevent1" targetRef="usertask1"></sequenceFlow>
+    <process id="signal-intermediate-catch" name="signal-intermediate-catch" isExecutable="true">
+        <startEvent id="startevent1" name="Start"/>
+        <userTask id="usertask1" name="usertask1"/>
+        <sequenceFlow id="flow1" sourceRef="startevent1" targetRef="usertask1"/>
 
-    <intermediateCatchEvent id="signalintermediatecatchevent2" name="SignalCatchEvent">
-      <extensionElements>
-        <activiti:executionListener event="end" class="me.chanjar.executionlistener.EventExecutionListener"></activiti:executionListener>
-      </extensionElements>
-      <signalEventDefinition signalRef="def"></signalEventDefinition>
-    </intermediateCatchEvent>
+        <intermediateCatchEvent id="signalintermediatecatchevent2" name="SignalCatchEvent">
+            <extensionElements>
+                <activiti:executionListener event="end"
+                                            class="me.chanjar.executionlistener.EventExecutionListener"/>
+            </extensionElements>
+            <signalEventDefinition signalRef="def"/>
+        </intermediateCatchEvent>
 
-    <sequenceFlow id="flow4" sourceRef="signalintermediatecatchevent2" targetRef="usertask2"></sequenceFlow>
-    <userTask id="usertask2" name="usertask2"></userTask>
-    <sequenceFlow id="flow5" sourceRef="usertask2" targetRef="endevent1"></sequenceFlow>
-    <endEvent id="endevent1" name="End"></endEvent>
-    <sequenceFlow id="flow6" sourceRef="usertask1" targetRef="signalintermediatecatchevent2"></sequenceFlow>
-  </process>
+        <sequenceFlow id="flow4" sourceRef="signalintermediatecatchevent2" targetRef="usertask2"/>
+        <userTask id="usertask2" name="usertask2"/>
+        <sequenceFlow id="flow5" sourceRef="usertask2" targetRef="endevent1"/>
+        <endEvent id="endevent1" name="End"/>
+        <sequenceFlow id="flow6" sourceRef="usertask1" targetRef="signalintermediatecatchevent2"/>
+    </process>
 
 </definitions>

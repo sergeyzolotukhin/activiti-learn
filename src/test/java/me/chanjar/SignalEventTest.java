@@ -37,7 +37,6 @@ public class SignalEventTest {
       String processDefinitionKey = "signal-intermediate-catch";
       runtimeService.startProcessInstanceByKey(processDefinitionKey);
       
-      // 完成一个任务
       Task task1 = taskService.createTaskQuery().processDefinitionKey(processDefinitionKey).taskDefinitionKey("usertask1").singleResult();
       taskService.complete(task1.getId());
       
@@ -46,7 +45,6 @@ public class SignalEventTest {
       Task task2 = taskService.createTaskQuery().processDefinitionKey(processDefinitionKey).taskDefinitionKey("usertask2").singleResult();
       taskService.complete(task2.getId());
       
-      // 判断process instance已经结束
       assertEquals(0, runtimeService.createProcessInstanceQuery().processDefinitionKey(processDefinitionKey).count());
     }
     
@@ -55,7 +53,7 @@ public class SignalEventTest {
     public void signalIntermediateCatch2() throws InterruptedException {
       String processDefinitionKey = "signal-intermediate-catch-2";
       runtimeService.startProcessInstanceByKey(processDefinitionKey);
-      // 完成一个任务
+
       Task task1 = taskService.createTaskQuery().processDefinitionKey(processDefinitionKey).taskDefinitionKey("usertask1").singleResult();
       taskService.complete(task1.getId());
       
@@ -65,8 +63,7 @@ public class SignalEventTest {
       
       Task task3 = taskService.createTaskQuery().processDefinitionKey(processDefinitionKey).taskDefinitionKey("usertask3").singleResult();
       taskService.complete(task3.getId());
-      
-      // 判断process instance已经结束
+
       assertEquals(0, runtimeService.createProcessInstanceQuery().processDefinitionKey(processDefinitionKey).count());
     }
     
@@ -75,11 +72,10 @@ public class SignalEventTest {
     public void signalIntermediateCatchBad() throws InterruptedException {
       String processDefinitionKey = "signal-intermediate-catch-bad";
       runtimeService.startProcessInstanceByKey(processDefinitionKey);
-      // 完成一个任务
+
       Task task1 = taskService.createTaskQuery().processDefinitionKey(processDefinitionKey).taskDefinitionKey("usertask1").singleResult();
       taskService.complete(task1.getId());
       
-      // 没有catch到signal，所以不会有task2
       Task task2 = taskService.createTaskQuery().processDefinitionKey(processDefinitionKey).taskDefinitionKey("usertask2").singleResult();
       assertNull(task2);
       
@@ -97,7 +93,6 @@ public class SignalEventTest {
       Task task2 = taskService.createTaskQuery().processDefinitionKey(processDefinitionKey).taskDefinitionKey("usertask2").singleResult();
       taskService.complete(task2.getId());
       
-      // 判断process instance已经结束
       assertEquals(0, runtimeService.createProcessInstanceQuery().processDefinitionKey(processDefinitionKey).count());
     }
     
@@ -107,8 +102,6 @@ public class SignalEventTest {
       String processDefinitionKey = "signal-boundary-catch-from-outside";
       runtimeService.startProcessInstanceByKey(processDefinitionKey);
 
-      // 给所有的process instance发送信号
-      // 不能在task1完成后调用，因为这个时候execution并不在捕获信息的activity上
       sendSignalToAll();
 
       Task task1 = taskService.createTaskQuery().processDefinitionKey(processDefinitionKey).taskDefinitionKey("usertask1").singleResult();
@@ -116,8 +109,7 @@ public class SignalEventTest {
       
       Task task2 = taskService.createTaskQuery().processDefinitionKey(processDefinitionKey).taskDefinitionKey("usertask2").singleResult();
       taskService.complete(task2.getId());
-      
-      // 判断process instance已经结束
+
       assertEquals(0, runtimeService.createProcessInstanceQuery().processDefinitionKey(processDefinitionKey).count());
     }
     
@@ -128,8 +120,6 @@ public class SignalEventTest {
       String processDefinitionKey = "signal-boundary-catch-from-outside-not-cancel";
       runtimeService.startProcessInstanceByKey(processDefinitionKey);
 
-      // 给所有的process instance发送信号
-      // 不能在task1完成后调用，因为这个时候execution并不在捕获信息的activity上
       sendSignalToAll();
 
       Task task1 = taskService.createTaskQuery().processDefinitionKey(processDefinitionKey).taskDefinitionKey("usertask1").singleResult();
@@ -138,8 +128,7 @@ public class SignalEventTest {
 
       Task task2 = taskService.createTaskQuery().processDefinitionKey(processDefinitionKey).taskDefinitionKey("usertask2").singleResult();
       taskService.complete(task2.getId());
-      
-      // 判断process instance已经结束
+
       assertEquals(0, runtimeService.createProcessInstanceQuery().processDefinitionKey(processDefinitionKey).count());
     }
     
@@ -147,17 +136,14 @@ public class SignalEventTest {
     @Deployment(resources="me/chanjar/signal/signal-intermediate-propagate.bpmn")
     public void signalIntermediateCatchPropagate() {
       String processDefinitionKey = "signal-intermediate-propagate";
-      // 建立两个process instance
+
       runtimeService.startProcessInstanceByKey(processDefinitionKey);
       runtimeService.startProcessInstanceByKey(processDefinitionKey);
 
-      // 此时两个process instance都还没有结束
       assertEquals(2, runtimeService.createProcessInstanceQuery().processDefinitionKey(processDefinitionKey).count());
 
-      // throw一个signal
       runtimeService.signalEventReceived("def");
       
-      // 判断process instance已经结束
       assertEquals(0, runtimeService.createProcessInstanceQuery().processDefinitionKey(processDefinitionKey).count());
     }
     
@@ -165,7 +151,7 @@ public class SignalEventTest {
       List<Execution> executions = runtimeService
           .createExecutionQuery()
           .processDefinitionKey(processDefinitionKey)
-          .signalEventSubscriptionName("def")   // 监听def signal的东西，在本例里是一个intermediate signal catch event
+          .signalEventSubscriptionName("def")
           .list();
       for(Execution execution : executions) {
         runtimeService.signalEventReceived("def", execution.getId());
