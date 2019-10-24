@@ -1,20 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.chanjar/me">
-  <process id="call-activity-sub" name="call-activity-sub" isExecutable="true">
-    <startEvent id="startevent1" name="Start"></startEvent>
-    <exclusiveGateway id="exclusivegateway1" name="Exclusive Gateway"></exclusiveGateway>
-    <userTask id="usertask1" name="usertask1"></userTask>
-    <sequenceFlow id="flow2" sourceRef="exclusivegateway1" targetRef="usertask1">
-      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${a_in_sub}]]></conditionExpression>
-    </sequenceFlow>
-    <userTask id="usertask2" name="usertask2"></userTask>
-    <sequenceFlow id="flow3" sourceRef="exclusivegateway1" targetRef="usertask2">
-      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${!a_in_sub}]]></conditionExpression>
-    </sequenceFlow>
-    <endEvent id="endevent1" name="End"></endEvent>
-    <sequenceFlow id="flow4" sourceRef="usertask1" targetRef="endevent1"></sequenceFlow>
-    <sequenceFlow id="flow5" sourceRef="usertask2" targetRef="endevent1"></sequenceFlow>
-    <sequenceFlow id="flow6" sourceRef="startevent1" targetRef="exclusivegateway1"></sequenceFlow>
-  </process>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath"
+             targetNamespace="http://www.chanjar/me">
+    <process id="call-activity-sub" name="call-activity-sub" isExecutable="true">
+        <startEvent id="startevent1" name="Start"/>
+        <exclusiveGateway id="exclusivegateway1" name="Exclusive Gateway"/>
+        <userTask id="usertask1" name="usertask1"/>
+        <sequenceFlow id="flow2" sourceRef="exclusivegateway1" targetRef="usertask1">
+            <conditionExpression xsi:type="tFormalExpression"><![CDATA[${a_in_sub}]]></conditionExpression>
+        </sequenceFlow>
+        <userTask id="usertask2" name="usertask2"/>
+        <sequenceFlow id="flow3" sourceRef="exclusivegateway1" targetRef="usertask2">
+            <conditionExpression xsi:type="tFormalExpression"><![CDATA[${!a_in_sub}]]></conditionExpression>
+        </sequenceFlow>
+        <endEvent id="endevent1" name="End"/>
+        <sequenceFlow id="flow4" sourceRef="usertask1" targetRef="endevent1"/>
+        <sequenceFlow id="flow5" sourceRef="usertask2" targetRef="endevent1"/>
+        <sequenceFlow id="flow6" sourceRef="startevent1" targetRef="exclusivegateway1"/>
+    </process>
 
 </definitions>

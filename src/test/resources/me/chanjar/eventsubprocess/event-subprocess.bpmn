@@ -1,27 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-             xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn"
-             xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
-             xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI"
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL"
              typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath"
              targetNamespace="http://www.activiti.org/test">
-    <message id="abc" name="abc"></message>
+
+    <message id="abc" name="abc"/>
+
     <process id="event-subprocess" name="event-subprocess" isExecutable="true">
-        <startEvent id="startevent1" name="Start"></startEvent>
-        <userTask id="usertask1" name="usertask1"></userTask>
-        <sequenceFlow id="flow1" sourceRef="startevent1" targetRef="usertask1"></sequenceFlow>
-        <userTask id="usertask2" name="usertask2"></userTask>
-        <sequenceFlow id="flow2" sourceRef="usertask1" targetRef="usertask2"></sequenceFlow>
-        <endEvent id="endevent1" name="End"></endEvent>
-        <sequenceFlow id="flow3" sourceRef="usertask2" targetRef="endevent1"></sequenceFlow>
+        <startEvent id="startevent1" name="Start"/>
+
+        <sequenceFlow id="flow1" sourceRef="startevent1" targetRef="usertask1"/>
+        <userTask id="usertask1" name="usertask1"/>
+        <sequenceFlow id="flow2" sourceRef="usertask1" targetRef="usertask2"/>
+
+        <userTask id="usertask2" name="usertask2"/>
+        <sequenceFlow id="flow3" sourceRef="usertask2" targetRef="endevent1"/>
+        <endEvent id="endevent1" name="End"/>
 
         <subProcess id="eventsubprocess1" name="Event sub Process" triggeredByEvent="true">
             <startEvent id="messagestartevent1" name="Message start" parallelMultiple="true" isInterrupting="false">
-                <messageEventDefinition messageRef="abc"></messageEventDefinition>
+                <messageEventDefinition messageRef="abc"/>
             </startEvent>
-            <userTask id="usertask3" name="usertask3"></userTask>
-            <sequenceFlow id="flow4" sourceRef="messagestartevent1" targetRef="usertask3"></sequenceFlow>
-        </subProcess>
 
+            <sequenceFlow id="flow4" sourceRef="messagestartevent1" targetRef="usertask3"/>
+
+            <userTask id="usertask3" name="usertask3"/>
+        </subProcess>
     </process>
 </definitions>
